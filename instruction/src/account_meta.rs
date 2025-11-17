@@ -101,4 +101,38 @@ impl AccountMeta {
             is_writable: false,
         }
     }
+
+    /// Construct metadata for a hook account.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use solana_pubkey::Pubkey;
+    /// # use solana_instruction::{AccountMeta, Instruction};
+    /// # use borsh::{BorshSerialize, BorshDeserialize};
+    /// #
+    /// # #[derive(BorshSerialize, BorshDeserialize)]
+    /// # #[borsh(crate = "borsh")]
+    /// # pub struct MyInstruction;
+    /// #
+    /// # let instruction = MyInstruction;
+    /// # let from = Pubkey::new_unique();
+    /// # let to = Pubkey::new_unique();
+    /// # let program_id = Pubkey::new_unique();
+    /// let instr = Instruction::new_with_borsh(
+    ///     program_id,
+    ///     &instruction,
+    ///     vec![
+    ///         AccountMeta::new2(from, true, true),
+    ///         AccountMeta::new2(to, false, true),
+    ///     ],
+    /// );
+    /// ```
+    pub fn new2(pubkey: Pubkey, is_signer: bool, is_writable: bool) -> Self {
+        Self {
+            pubkey,
+            is_signer,
+            is_writable,
+        }
+    }
 }
